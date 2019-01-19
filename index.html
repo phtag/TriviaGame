@@ -12,11 +12,17 @@
 </head>
 <body>
     <div class="container">
-        <h2 class="my-header">Totally Trivial Trivia</h2>
-        <div class="button-container"></div>
-            <div id="time-remaining">Time remaining: <span id="time-remaining-display">00:00</span></div>
-            <button class="btn btn-primary my-button">Begin</button>
-         </div>
+        <div class="row">
+            <div class="col-sm-12 about-me-section">
+                <h2 class="my-header">Totally Trivial Trivia</h2>
+                <div id="time-remaining">Time remaining: <span id="time-remaining-display">00:00</span></div>                   
+                <div><span id="quiz-question">My question</span></div>
+                <div id="my-choices-buttons-container"></div>
+                <ul id="question-choices">
+                </ul>
+                <button class="btn btn-primary my-button">Begin</button>
+            </div>
+        </div>
     </div>
     <script
         src="https://code.jquery.com/jquery-3.3.1.min.js"

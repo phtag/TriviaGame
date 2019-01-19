@@ -1,13 +1,45 @@
 window.onload = function() {
+    var intervalId;
+    
     $("#time-remaining").hide();
     $("#time-remaining-display").hide();
-    
+    $('#start-button').show();
+    var quizContainer = $('.quiz-container');
+    var currentQuestion = $('#quiz-question');
+    var questionChoices = $('#question-choices');
+    var myChoicesButtonsContainer = $('#my-choices-buttons-container');
+    currentQuestion.hide();
+
     $('.my-button').on('click', function(event){
         $("#time-remaining").show();
         $("#time-remaining-display").show();
         var initialTimeRemaining = myClock.timeConverter(60);
         $("#time-remaining-display").text(initialTimeRemaining);    
         myClock.start();
+        $(this).hide();
+        currentQuestion.show();
+        currentQuestion.text("Which of the following people is not a member of the K-Pop band BTS?")
+        // questionChoices.append('<li>Jimin</li>');
+        // questionChoices.append('<li>RM</li>');
+        // questionChoices.append('<li>Jungkook</li>');
+        // questionChoices.append('<li>Suga</li>');
+        // questionChoices.append('<li>Sung Choi</li>');
+        // questionChoices.append('<li>V</li>');
+        // questionChoices.append('<li>Jin</li>');
+        myChoicesButtonsContainer.append('<button class="btn btn-primary my-choices-buttons">Jimin</button><br>');
+        myChoicesButtonsContainer.append('<button class="btn btn-primary my-choices-buttons">RM</button><br>');
+        myChoicesButtonsContainer.append('<button class="btn btn-primary my-choices-buttons">Jungkook</button><br>');
+        myChoicesButtonsContainer.append('<button class="btn btn-primary my-choices-buttons">Suga</button><br>');
+        myChoicesButtonsContainer.append('<button class="btn btn-primary my-choices-buttons">Sung Choi</button><br>');
+        myChoicesButtonsContainer.append('<button class="btn btn-primary my-choices-buttons">V</button><br>');
+        myChoicesButtonsContainer.append('<button class="btn btn-primary my-choices-buttons">Jin</button><br>');
+    
+
+        
+    });
+    $(document).on('mouseover', 'li', function(event){
+        // alert($(this).text());
+        $(this).css("background-color", "yellow");
     });
     var clockRunning = false;
     var myClock = {
@@ -30,6 +62,9 @@ window.onload = function() {
             myClock.remainingTime--;
             var timeDisplay = myClock.timeConverter(myClock.remainingTime);
             $("#time-remaining-display").text(timeDisplay);
+            if (myClock.remainingTime === 0) {
+                clearInterval(intervalId);
+            }
         },
         //________________________________________
         //
