@@ -9,7 +9,7 @@ The project taught us how to use timers in javascript to control the flow of act
 ### Game Description
 The game is by selecting one the 6 possible choices for each trivia question. Each question has a limit of 10 seconds to provide an answer. When a question has been answered or the timeout period has expired, the game will inform the user what the correct answer is and then move to the next question. After all questions have been answered, the game will provide a summary of how well the player did by displaying the number of correct, incorrect and unanswered questions during the game.
 
-![Star Wars Game Screenshot](assets/images/StartWarsGameScreenShot.JPG)
+![Trivia Game Screenshot](assets/images/TriviaGameScreenShot.JPG)
 
 This project is maintained by Peter Tag
 
