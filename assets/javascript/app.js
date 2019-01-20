@@ -1,6 +1,19 @@
 window.onload = function() {
     var intervalId;
-    
+    var triviaGame = {
+        questions : ["Which of the following people is not a member of the K-Pop band BTS?",
+                    "What US city has the most microbreweries?",
+                    "What city did the baseball Dodgers move from before coming to Los Angeles?",
+                    "Which UC Davis professor is the most adorable and intelligent person on the planet?"],
+        questionChoices : [["Jimin", "RM", "Suga", "Sung Choi", "J-Hope", "Jungkook"],
+                        ["Portland", "Boston", "Denver", "St. Louis", "Atlanta", "Sacramento"],
+                        ["Boston", "Chicago", "Baltimore", "Pittsburgh", "Cincinatti", "Brooklyn"],
+                        ["Xiaomei Chen", "Xiaomei Chen", "Xiaomei Chen", "Xiaomei Chen", "Xiaomei Chen", "Xiaomei Chen"]],
+        answers : ["Sung Choi", "Portland", "Brooklyn", "Xiaomei Chen"]
+                }
+    var currentQuestionIndex = 0;
+    var gamesWon = 0;
+    var gamesLost = 0;
     $("#time-remaining").hide();
     $("#time-remaining-display").hide();
     $('#start-button').show();
@@ -10,7 +23,7 @@ window.onload = function() {
     var myChoicesButtonsContainer = $('#my-choices-buttons-container');
     currentQuestion.hide();
 
-    $('.my-button').on('click', function(event){
+    $('.start-button').on('click', function(event){
         $("#time-remaining").show();
         $("#time-remaining-display").show();
         var initialTimeRemaining = myClock.timeConverter(60);
@@ -18,29 +31,25 @@ window.onload = function() {
         myClock.start();
         $(this).hide();
         currentQuestion.show();
-        currentQuestion.text("Which of the following people is not a member of the K-Pop band BTS?")
-        // questionChoices.append('<li>Jimin</li>');
-        // questionChoices.append('<li>RM</li>');
-        // questionChoices.append('<li>Jungkook</li>');
-        // questionChoices.append('<li>Suga</li>');
-        // questionChoices.append('<li>Sung Choi</li>');
-        // questionChoices.append('<li>V</li>');
-        // questionChoices.append('<li>Jin</li>');
-        myChoicesButtonsContainer.append('<button class="btn btn-primary my-choices-buttons">Jimin</button><br>');
-        myChoicesButtonsContainer.append('<button class="btn btn-primary my-choices-buttons">RM</button><br>');
-        myChoicesButtonsContainer.append('<button class="btn btn-primary my-choices-buttons">Jungkook</button><br>');
-        myChoicesButtonsContainer.append('<button class="btn btn-primary my-choices-buttons">Suga</button><br>');
-        myChoicesButtonsContainer.append('<button class="btn btn-primary my-choices-buttons">Sung Choi</button><br>');
-        myChoicesButtonsContainer.append('<button class="btn btn-primary my-choices-buttons">V</button><br>');
-        myChoicesButtonsContainer.append('<button class="btn btn-primary my-choices-buttons">Jin</button><br>');
-    
+        currentQuestion.text(triviaGame.questions[currentQuestionIndex]);
+        for (var i=0;i<triviaGame.questionChoices[currentQuestionIndex].length;i++) {
+            myChoicesButtonsContainer.append('<button class="btn btn-primary my-choices-buttons">' + triviaGame.questionChoices[currentQuestionIndex][i] + '</button><br>');
+        }
+    });
+     $(document).on('click', '.my-choices-buttons', function(event) {
+        myChoicesButtonsContainer.empty();
+        if ($(this).text() == triviaGame.answers[currentQuestionIndex]) {
+            gamesWon++;
+            myChoicesButtonsContainer.append('<pre>Yep!</pre>');
+        } else {
+            gamesLost++;
+            myChoicesButtonsContainer.append('<pre>Nope!</pre>');
+        }
 
-        
-    });
-    $(document).on('mouseover', 'li', function(event){
-        // alert($(this).text());
-        $(this).css("background-color", "yellow");
-    });
+        myChoicesButtonsContainer.append('<pre>The correct answer is ' + triviaGame.answers[currentQuestionIndex] + '</pre>');
+        var answerGIF = $('<img id="my-answer-GIF" src="' + 'https://media.giphy.com/media/8PduhjwiOxtNjieurJ/giphy.gif' + '">');
+        myChoicesButtonsContainer.append(answerGIF);
+     });
     var clockRunning = false;
     var myClock = {
         time: 0,
