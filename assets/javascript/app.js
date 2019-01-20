@@ -60,8 +60,8 @@ window.onload = function() {
             myChoicesButtonsContainer.append('<pre>Correctly answered: ' + triviaGame.AnsweredCorrectly  + '</pre>');   
             myChoicesButtonsContainer.append('<pre>Incorrectly answered: ' + triviaGame.AnsweredIncorrectly  + '</pre>');   
             myChoicesButtonsContainer.append('<pre>Not answered: ' + triviaGame.notAnswered  + '</pre>');   
-            // var answerGIF = $('<img id="my-answer-GIF" src="' + triviaGame.answers.GIFs[triviaGame.currentQuestionIndex] + '">');
-            // myChoicesButtonsContainer.append(answerGIF);
+            var startOverButton = $('<button class="btn btn-primary start-button">Restart the game?</button>');
+            myChoicesButtonsContainer.append(startOverButton);
             setTimeout(triviaGame.nextQuestion, 5000);
         },
         myClock : {
