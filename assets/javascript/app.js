@@ -16,26 +16,76 @@ window.onload = function() {
                           "https://media.giphy.com/media/AxhxIcTMEMqR2/giphy.gif"
                         ]}, 
         nextQuestion : function() {
-            myClock.stop();
+            triviaGame.myClock.stop();
             myChoicesButtonsContainer.empty();
             currentQuestionIndex++;
             $("#time-remaining").show();
             $("#time-remaining-display").show();
-            var initialTimeRemaining = myClock.timeConverter(20);
+            var initialTimeRemaining = triviaGame.myClock.timeConverter(20);
             $("#time-remaining-display").text(initialTimeRemaining);    
-            myClock.start();
+            triviaGame.myClock.start();
             $(this).hide();
             currentQuestion.show();
             currentQuestion.text(triviaGame.questions[currentQuestionIndex]);
             for (var i=0;i<triviaGame.questionChoices[currentQuestionIndex].length;i++) {
                 myChoicesButtonsContainer.append('<button class="btn btn-primary my-choices-buttons">' + triviaGame.questionChoices[currentQuestionIndex][i] + '</button><br>');
             }  
+        },
+        myClock : {
+            time: 0,
+            remainingTime:  20,
+            start: function() {
+        
+                //  TODO: Use setInterval to start the count here and set the clock to running.
+                if (!clockRunning) {
+                    intervalId = setInterval(triviaGame.myClock.count, 1000);
+                    clockRunning = true;
+                }
+                else {
+                }
+            },
+            stop: function() {
+                clearInterval(intervalId);
+                clockRunning = false;
+                triviaGame.myClock.remainingTime = 20;
+            },
+            //_______________________________________
+            //
+            count: function() {
+                triviaGame.myClock.time++;
+                triviaGame.myClock.remainingTime--;
+                var timeDisplay = triviaGame.myClock.timeConverter(triviaGame.myClock.remainingTime);
+                $("#time-remaining-display").text(timeDisplay);
+                if (triviaGame.myClock.remainingTime === 0) {
+                    clearInterval(intervalId);
+                }
+            },
+            //________________________________________
+            //
+            timeConverter: function(t) {      
+                //  Takes the current time in seconds and convert it to minutes and seconds (mm:ss).
+                var minutes = Math.floor(t / 60);
+                var seconds = t - (minutes * 60);
+        
+                if (seconds < 10) {
+                seconds = "0" + seconds;
+                }
+        
+                if (minutes === 0) {
+                minutes = "00";
+                }
+        
+                else if (minutes < 10) {
+                minutes = "0" + minutes;
+                }
+                return minutes + ":" + seconds;
+            }
         }
-  
     }
     var currentQuestionIndex = 0;
     var gamesWon = 0;
     var gamesLost = 0;
+    var clockRunning = false;
     $("#time-remaining").hide();
     $("#time-remaining-display").hide();
     $('#start-button').show();
@@ -49,9 +99,9 @@ window.onload = function() {
 
         $("#time-remaining").show();
         $("#time-remaining-display").show();
-        var initialTimeRemaining = myClock.timeConverter(20);
+        var initialTimeRemaining = triviaGame.myClock.timeConverter(20);
         $("#time-remaining-display").text(initialTimeRemaining);    
-        myClock.start();
+        triviaGame.myClock.start();
         $(this).hide();
         currentQuestion.show();
         currentQuestion.text(triviaGame.questions[currentQuestionIndex]);
@@ -78,56 +128,55 @@ window.onload = function() {
         setTimeout(triviaGame.nextQuestion, 5000);
       });
 
-    var clockRunning = false;
-    var myClock = {
-        time: 0,
-        remainingTime:  20,
-        start: function() {
+    // var myClock = {
+    //     time: 0,
+    //     remainingTime:  20,
+    //     start: function() {
     
-            //  TODO: Use setInterval to start the count here and set the clock to running.
-            if (!clockRunning) {
-                intervalId = setInterval(myClock.count, 1000);
-                clockRunning = true;
-            }
-            else {
-            }
-        },
-        stop: function() {
-            clearInterval(intervalId);
-            clockRunning = false;
-            myClock.remainingTime = 20;
-        },
-        //_______________________________________
-        //
-        count: function() {
-            myClock.time++;
-            myClock.remainingTime--;
-            var timeDisplay = myClock.timeConverter(myClock.remainingTime);
-            $("#time-remaining-display").text(timeDisplay);
-            if (myClock.remainingTime === 0) {
-                clearInterval(intervalId);
-            }
-        },
-        //________________________________________
-        //
-        timeConverter: function(t) {
+    //         //  TODO: Use setInterval to start the count here and set the clock to running.
+    //         if (!clockRunning) {
+    //             intervalId = setInterval(myClock.count, 1000);
+    //             clockRunning = true;
+    //         }
+    //         else {
+    //         }
+    //     },
+    //     stop: function() {
+    //         clearInterval(intervalId);
+    //         clockRunning = false;
+    //         myClock.remainingTime = 20;
+    //     },
+    //     //_______________________________________
+    //     //
+    //     count: function() {
+    //         myClock.time++;
+    //         myClock.remainingTime--;
+    //         var timeDisplay = myClock.timeConverter(myClock.remainingTime);
+    //         $("#time-remaining-display").text(timeDisplay);
+    //         if (myClock.remainingTime === 0) {
+    //             clearInterval(intervalId);
+    //         }
+    //     },
+    //     //________________________________________
+    //     //
+    //     timeConverter: function(t) {
     
-        //  Takes the current time in seconds and convert it to minutes and seconds (mm:ss).
-        var minutes = Math.floor(t / 60);
-        var seconds = t - (minutes * 60);
+    //     //  Takes the current time in seconds and convert it to minutes and seconds (mm:ss).
+    //     var minutes = Math.floor(t / 60);
+    //     var seconds = t - (minutes * 60);
 
-        if (seconds < 10) {
-        seconds = "0" + seconds;
-        }
+    //     if (seconds < 10) {
+    //     seconds = "0" + seconds;
+    //     }
 
-        if (minutes === 0) {
-        minutes = "00";
-        }
+    //     if (minutes === 0) {
+    //     minutes = "00";
+    //     }
 
-        else if (minutes < 10) {
-        minutes = "0" + minutes;
-        }
-        return minutes + ":" + seconds;
-    }
-    };
+    //     else if (minutes < 10) {
+    //     minutes = "0" + minutes;
+    //     }
+    //     return minutes + ":" + seconds;
+    // }
+    // };
 }
