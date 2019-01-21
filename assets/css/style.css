@@ -56,6 +56,14 @@ body {
     background-color: lightsalmon;
     border: 1px solid darkgreen;
 }
+#restart-button {
+    margin-top: 5%;
+    margin-bottom: 30%;
+    width: 20%;
+    text-align: center;
+    background-color: lightsalmon;
+    border: 1px solid darkgreen;
+}
 .my-choices-buttons {
     width: 40%;
     margin: 2px;
@@ -75,7 +83,12 @@ body {
     color: red;
     font-size: 20px;
 }
-
+#game-completed {
+    font-size: 28px;
+    font-weight: bold;
+    color: red;
+    text-align: center;
+}
 #quiz-question {
     font-size: 20px;
     color: black;

@@ -1,7 +1,7 @@
 window.onload = function() {
     var intervalId;
     var triviaGame = {
-        maxTimePerQuestion : 10,
+        maxTimePerQuestion : 15,
         currentQuestionIndex : -1,
         notAnswered : 0,
         AnsweredCorrectly : 0,
@@ -20,7 +20,33 @@ window.onload = function() {
                           "https://media.giphy.com/media/jldMwH1mvaRTo5jIBw/giphy.gif",
                           "https://media.giphy.com/media/gZ7UAPE4SnjJC/giphy.gif",
                           "https://media.giphy.com/media/AxhxIcTMEMqR2/giphy.gif"
-                        ]}, 
+                        ]},
+        startFirstQuestion : function() {
+            // alert("Made it here!");
+            triviaGame.currentQuestionIndex=0;
+            triviaGame.notAnswered = 0;
+            trivieGame.AnsweredCorrectly = 0;
+            triviaGame.AnsweredIncorrectly = 0;   
+            alert("Made it here2!");
+
+            triviaGame.myClock.stop();
+            myChoicesButtonsContainer.empty();
+            $("#time-remaining").show();
+            $("#time-remaining-display").show();
+            var initialTimeRemaining = triviaGame.myClock.timeConverter(triviaGame.maxTimePerQuestion);
+            $("#time-remaining-display").text(initialTimeRemaining);    
+            triviaGame.myClock.start();
+            alert("Made it here3!");
+
+            $(this).hide();
+            currentQuestion.show();
+            currentQuestion.text(triviaGame.questions[triviaGame.currentQuestionIndex]);
+            for (var i=0;i<triviaGame.questionChoices[triviaGame.currentQuestionIndex].length;i++) {
+                myChoicesButtonsContainer.append('<button class="btn btn-primary my-choices-buttons">' + triviaGame.questionChoices[triviaGame.currentQuestionIndex][i] + '</button><br>');
+            }  
+            alert("Exiting!");
+
+        },     
         nextQuestion : function() {
             triviaGame.myClock.stop();
             myChoicesButtonsContainer.empty();
@@ -57,13 +83,14 @@ window.onload = function() {
             myChoicesButtonsContainer.empty();
             $("#time-remaining").hide();
             $("#time-remaining-display").hide();
+            myChoicesButtonsContainer.append('<pre id="game-completed">Game completed</pre>');   
             myChoicesButtonsContainer.append('<pre>Correctly answered: ' + triviaGame.AnsweredCorrectly  + '</pre>');   
             myChoicesButtonsContainer.append('<pre>Incorrectly answered: ' + triviaGame.AnsweredIncorrectly  + '</pre>');   
             myChoicesButtonsContainer.append('<pre>Not answered: ' + triviaGame.notAnswered  + '</pre>');   
-            var startOverButton = $('<button class="btn btn-primary start-button">Restart the game?</button>');
+            var startOverButton = $('<button id="restart-button" class="btn btn-primary">Restart the game?</button>');
             myChoicesButtonsContainer.append(startOverButton);
-            setTimeout(triviaGame.nextQuestion, 5000);
-        },
+            triviaGame.myClock.stop();
+         },
         myClock : {
             time: 0,
             remainingTime : 0,
@@ -126,21 +153,16 @@ window.onload = function() {
     currentQuestion.hide();
    
     $('.start-button').on('click', triviaGame.nextQuestion);
- 
-    // $('.start-button').on('click', function(event){
-    //     $("#time-remaining").show();
-    //     $("#time-remaining-display").show();
-    //     var initialTimeRemaining = triviaGame.myClock.timeConverter(triviaGame.maxTimePerQuestion);
-    //     $("#time-remaining-display").text(initialTimeRemaining);    
-    //     triviaGame.myClock.start();
-    //     $(this).hide();
-    //     currentQuestion.show();
-    //     currentQuestion.text(triviaGame.questions[triviaGame.currentQuestionIndex]);
-    //     for (var i=0;i<triviaGame.questionChoices[triviaGame.currentQuestionIndex].length;i++) {
-    //         myChoicesButtonsContainer.append('<button class="btn btn-primary my-choices-buttons">' + triviaGame.questionChoices[triviaGame.currentQuestionIndex][i] + '</button><br>');
-    //     }
-    // });
-     $(document).on('click', '.my-choices-buttons', function(event) {
+    $(document).on('click', '#restart-button', function(event){
+        triviaGame.maxTimePerQuestion = 15;
+        triviaGame.currentQuestionIndex = -1;
+        triviaGame.notAnswered = 0;
+        triviaGame.AnsweredCorrectly = 0;
+        triviaGame.AnsweredIncorrectly = 0;
+        triviaGame.clockRunning = false;
+        triviaGame.nextQuestion();
+    });
+    $(document).on('click', '.my-choices-buttons', function(event) {
         var message;
         // Here's where we determine if the player has input the right answer
         if ($(this).text() == triviaGame.answers.values[triviaGame.currentQuestionIndex]) {
